@@ -95,7 +95,7 @@ pipeline {
 
                     sh '''
                         terraform init \
-                            -backend-config="bucket=terraform-ha-infra-state-file" \
+                            -backend-config="bucket=terraform-ha-infra-state" \
                             -backend-config="key=infrastructure/terraform.tfstate" \
                             -backend-config="region=${AWS_REGION}" \
                             -backend-config="dynamodb_table=terraform-ha-infra-lock" \
