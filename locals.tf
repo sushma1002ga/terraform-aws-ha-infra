@@ -35,7 +35,6 @@ locals {
       redis_node_type         = "cache.t3.micro"
       redis_num_cache_nodes   = 1
       enable_dr               = false
-      enable_waf              = false
       enable_multi_az_redis   = false
       bastion_instance_type   = "t3.micro"
     }

@@ -76,36 +76,8 @@ module "ecr" {
   kms_key_arn = module.kms.app_key_arn
 }
 
-# ─── 6. Route53 DNS Zone ─────────────────────────────────────────────────────
-
-module "route53" {
-  source = "./modules/route53"
-
-  name_prefix               = local.name_prefix
-  domain_name               = var.domain_name
-  create_zone               = var.create_dns_zone
-  primary_alb_dns           = module.alb.alb_dns_name
-  primary_alb_zone_id       = module.alb.alb_zone_id
-  cloudfront_domain_name    = module.cloudfront.distribution_domain_name
-  cloudfront_hosted_zone_id = module.cloudfront.distribution_hosted_zone_id
-  enable_dr                 = local.config.enable_dr
-  enable_failover           = local.config.enable_dr
-  create_cloudfront_record  = true
-}
-
-# ─── 7. ACM Certificates ─────────────────────────────────────────────────────
-
-module "acm" {
-  source = "./modules/acm"
-
-  providers = {
-    aws.us_east_1 = aws.us_east_1
-  }
-
-  name_prefix = local.name_prefix
-  domain_name = var.domain_name
-  zone_id     = module.route53.zone_id
-}
+# ─── 6. (Route53 removed — using ALB DNS directly) ──────────────────────────
+# ─── 7. (ACM removed — using HTTP only, no SSL certificates needed) ──────────
 
 # ─── 8. Application Load Balancer ────────────────────────────────────────────
 
@@ -116,7 +88,6 @@ module "alb" {
   vpc_id                     = module.vpc.vpc_id
   public_subnet_ids          = module.vpc.public_subnet_ids
   security_group_id          = module.security_groups.alb_sg_id
-  certificate_arn            = module.acm.primary_certificate_arn
   container_port             = var.container_port
   enable_deletion_protection = var.enable_deletion_protection
   enable_access_logs         = true
@@ -189,32 +160,8 @@ module "elasticache" {
   sns_topic_arn      = module.monitoring.sns_topic_arn
 }
 
-# ─── 12. WAF v2 (CloudFront scope — must use us-east-1 provider) ────────────
-
-module "waf" {
-  source = "./modules/waf"
-  count  = local.config.enable_waf ? 1 : 0
-
-  providers = {
-    aws = aws.us_east_1
-  }
-
-  name_prefix = local.name_prefix
-  scope       = "CLOUDFRONT"
-  rate_limit  = 2000
-}
-
-# ─── 13. CloudFront CDN ──────────────────────────────────────────────────────
-
-module "cloudfront" {
-  source = "./modules/cloudfront"
-
-  name_prefix     = local.name_prefix
-  alb_dns_name    = module.alb.alb_dns_name
-  certificate_arn = module.acm.cloudfront_certificate_arn
-  domain_aliases  = [var.domain_name, "www.${var.domain_name}"]
-  waf_acl_arn     = local.config.enable_waf ? module.waf[0].web_acl_arn : ""
-}
+# ─── 12. (WAF removed — was CloudFront-scoped) ──────────────────────────────
+# ─── 13. (CloudFront removed — using ALB directly) ──────────────────────────
 
 # ─── 14. Bastion Host ────────────────────────────────────────────────────────
 

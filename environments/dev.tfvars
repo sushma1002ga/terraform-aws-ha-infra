@@ -24,9 +24,7 @@ db_engine_version  = "15.4"
 db_name            = "appdb"
 db_master_username = "dbadmin"
 
-# DNS
-domain_name     = "example.com"
-create_dns_zone = true
+# DNS (removed — using ALB DNS directly)
 
 # Security
 allowed_bastion_cidrs      = ["0.0.0.0/0"] # Restrict in real environments!
@@ -37,5 +35,4 @@ alert_email = "ksiddharth263@gmail.com"
 
 # Feature Flags
 enable_dr_region = false
-enable_waf       = false
 enable_bastion   = true

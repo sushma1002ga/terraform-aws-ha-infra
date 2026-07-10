@@ -72,19 +72,11 @@ output "app_bucket_name" {
   value       = module.s3.app_bucket_name
 }
 
-# ─── CloudFront ───────────────────────────────────────────────────────────────
+# ─── CloudFront (removed — using ALB directly) ──────────────────────────────
 
-output "cloudfront_domain_name" {
-  description = "Domain name of the CloudFront distribution"
-  value       = module.cloudfront.distribution_domain_name
-}
+# ─── Route53 (removed — no domain) ───────────────────────────────────────────
 
-# ─── Route53 ──────────────────────────────────────────────────────────────────
 
-output "nameservers" {
-  description = "Route53 hosted zone nameservers"
-  value       = module.route53.nameservers
-}
 
 # ─── Monitoring ───────────────────────────────────────────────────────────────
 

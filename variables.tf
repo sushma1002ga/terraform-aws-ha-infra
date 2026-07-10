@@ -85,19 +85,7 @@ variable "db_master_username" {
   sensitive   = true
 }
 
-# ─── DNS & Domain ────────────────────────────────────────────────────────────
-
-variable "domain_name" {
-  description = "Root domain name for Route53 and certificates"
-  type        = string
-  default     = "example.com"
-}
-
-variable "create_dns_zone" {
-  description = "Whether to create a new Route53 hosted zone"
-  type        = bool
-  default     = true
-}
+# ─── DNS & Domain (removed — using ALB DNS directly) ─────────────────────────
 
 # ─── Security ─────────────────────────────────────────────────────────────────
 
@@ -129,11 +117,7 @@ variable "enable_dr_region" {
   default     = false
 }
 
-variable "enable_waf" {
-  description = "Enable WAF on CloudFront"
-  type        = bool
-  default     = true
-}
+
 
 variable "enable_bastion" {
   description = "Enable bastion host"

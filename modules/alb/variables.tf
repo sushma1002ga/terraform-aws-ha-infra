@@ -18,11 +18,6 @@ variable "security_group_id" {
   type        = string
 }
 
-variable "certificate_arn" {
-  description = "ACM certificate ARN for HTTPS"
-  type        = string
-}
-
 variable "container_port" {
   description = "Port the application listens on"
   type        = number
