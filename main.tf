@@ -221,6 +221,24 @@ module "cloudfront" {
   waf_acl_arn     = local.config.enable_waf ? module.waf[0].web_acl_arn : ""
 }
 
+resource "aws_route53_record" "cloudfront" {
+
+  zone_id = module.route53.zone_id
+
+  name = var.domain_name
+
+  type = "A"
+
+  alias {
+
+    name = module.cloudfront.distribution_domain_name
+
+    zone_id = module.cloudfront.distribution_hosted_zone_id
+
+    evaluate_target_health = false
+  }
+}
+
 # ─── 14. Bastion Host ────────────────────────────────────────────────────────
 
 module "bastion" {
