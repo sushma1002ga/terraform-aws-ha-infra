@@ -81,16 +81,17 @@ module "ecr" {
 module "route53" {
   source = "./modules/route53"
 
-  name_prefix               = local.name_prefix
-  domain_name               = var.domain_name
-  create_zone               = var.create_dns_zone
-  primary_alb_dns           = module.alb.alb_dns_name
-  primary_alb_zone_id       = module.alb.alb_zone_id
-  cloudfront_domain_name    = module.cloudfront.distribution_domain_name
-  cloudfront_hosted_zone_id = module.cloudfront.distribution_hosted_zone_id
-  enable_dr                 = local.config.enable_dr
-  enable_failover           = local.config.enable_dr
-  create_cloudfront_record  = true
+  name_prefix         = local.name_prefix
+  domain_name         = var.domain_name
+  create_zone         = var.create_dns_zone
+
+  primary_alb_dns     = module.alb.alb_dns_name
+  primary_alb_zone_id = module.alb.alb_zone_id
+
+  enable_dr           = local.config.enable_dr
+  enable_failover     = local.config.enable_dr
+
+  create_cloudfront_record = false
 }
 
 # ─── 7. ACM Certificates ─────────────────────────────────────────────────────
