@@ -20,20 +20,25 @@ resource "aws_acm_certificate" "primary" {
 
 # DNS Validation Records
 resource "aws_route53_record" "primary_validation" {
+
   for_each = {
-    for dvo in aws_acm_certificate.primary.domain_validation_options :dvo.resource_record_name => {
-      name   = dvo.resource_record_name
-      record = dvo.resource_record_value
-      type   = dvo.resource_record_type
-    }
+    for dvo in aws_acm_certificate.primary.domain_validation_options :
+    dvo.domain_name => dvo
   }
 
   allow_overwrite = true
-  name            = each.value.name
-  records         = [each.value.record]
-  ttl             = 60
-  type            = each.value.type
-  zone_id         = var.zone_id
+
+  name = each.value.resource_record_name
+
+  records = [
+    each.value.resource_record_value
+  ]
+
+  ttl = 60
+
+  type = each.value.resource_record_type
+
+  zone_id = var.zone_id
 }
 
 resource "aws_acm_certificate_validation" "primary" {
@@ -60,20 +65,28 @@ resource "aws_acm_certificate" "cloudfront" {
 }
 
 resource "aws_route53_record" "cloudfront_validation" {
+
+  provider = aws.us_east_1
+
   for_each = {
-    for dvo in aws_acm_certificate.cloudfront.domain_validation_options : dvo.resource_record_name => {
-      name   = dvo.resource_record_name
-      record = dvo.resource_record_value
-      type   = dvo.resource_record_type
-    }
+    for dvo in aws_acm_certificate.cloudfront.domain_validation_options :
+    dvo.domain_name => dvo
   }
 
+
   allow_overwrite = true
-  name            = each.value.name
-  records         = [each.value.record]
-  ttl             = 60
-  type            = each.value.type
-  zone_id         = var.zone_id
+
+  name = each.value.resource_record_name
+
+  records = [
+    each.value.resource_record_value
+  ]
+
+  ttl = 60
+
+  type = each.value.resource_record_type
+
+  zone_id = var.zone_id
 }
 
 resource "aws_acm_certificate_validation" "cloudfront" {
