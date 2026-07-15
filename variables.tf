@@ -90,7 +90,7 @@ variable "db_master_username" {
 variable "domain_name" {
   description = "Root domain name for Route53 and certificates"
   type        = string
-  default     = "example.com"
+  default     = "sidsdestination.shop"
 }
 
 variable "create_dns_zone" {
