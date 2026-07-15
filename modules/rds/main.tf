@@ -15,7 +15,7 @@ resource "aws_secretsmanager_secret" "db_password" {
   name                    = "${var.name_prefix}/rds/master-password"
   description             = "Master password for ${var.name_prefix} Aurora cluster"
   kms_key_id              = var.kms_key_arn
-  recovery_window_in_days = 7
+  recovery_window_in_days = 0
 
   tags = {
     Name = "${var.name_prefix}-db-password"
