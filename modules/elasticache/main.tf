@@ -12,7 +12,7 @@ resource "aws_secretsmanager_secret" "redis_auth" {
   name                    = "${var.name_prefix}/redis/auth-token"
   description             = "Auth token for ${var.name_prefix} Redis cluster"
   kms_key_id              = var.kms_key_arn
-  recovery_window_in_days = 7
+  recovery_window_in_days = 0
 
   tags = {
     Name = "${var.name_prefix}-redis-auth"
