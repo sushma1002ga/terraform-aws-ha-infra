@@ -152,6 +152,10 @@ module "ecs" {
   db_port       = module.rds.port
   db_name       = var.db_name
   db_secret_arn = module.rds.secret_arn
+
+depends_on = [
+    module.alb
+]
 }
 
 # ─── 10. Aurora RDS Database ─────────────────────────────────────────────────
