@@ -35,7 +35,7 @@ resource "aws_instance" "bastion" {
 
   root_block_device {
     volume_type = "gp3"
-    volume_size = 20
+    volume_size = 30
     encrypted   = true
     kms_key_id  = var.kms_key_arn
   }
