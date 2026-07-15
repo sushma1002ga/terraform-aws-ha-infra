@@ -20,7 +20,7 @@ container_image = "nginx:latest"
 container_port  = 80
 
 # Database
-db_engine_version  = "15.4"
+db_engine_version  = "15.8"
 db_name            = "appdb"
 db_master_username = "dbadmin"
 
